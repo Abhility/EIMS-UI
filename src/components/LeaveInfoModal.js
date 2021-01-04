@@ -27,7 +27,7 @@ const LeaveInfoModal = ({data}) => {
       </div>
       <div className="row">
       <div className="input-field col s12">
-          <textarea id="reason" className="materialize-textarea" defaultValue={data.reason}/>
+          <textarea id="reason" disabled className="materialize-textarea" defaultValue={data.reason}/>
           <label htmlFor="reason" className="active">Reason</label>
        </div>
     </div>

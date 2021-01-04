@@ -43,3 +43,12 @@ label{
     font-weight: 800;
     margin: 0px auto 20px auto;
 }
+
+.form-field{
+    color: grey;
+    font-weight: 400;
+}
+
+.login-left-block{
+    height: 100vh;
+}
