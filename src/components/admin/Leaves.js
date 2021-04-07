@@ -1,26 +1,27 @@
 import LeaveInfoModal from './LeaveInfoModal';
 import { useState, useEffect } from 'react';
 import { httpCall } from '../../helpers/http';
-import { getValue } from '../../helpers/storage';
 
 const Leaves = () => {
   const [leaves, setLeaves] = useState([]);
 
   const fetchLeaves = async () => {
     let data = await httpCall(
-      `http://localhost:9090/api/v1/users/${getValue('userId')}/leaves`,
+      `http://localhost:9090/api/v1/leaves`,
       'GET',
       null
     );
     if (data) {
-      data = data.map((item) => {
-        return {
-          ...item,
-          startDate: new Date(item.startDate).toDateString(),
-          endDate: new Date(item.endDate).toDateString(),
-          createdAt: new Date(item.createdAt).toDateString(),
-        };
-      });
+      data = data
+        .filter((item) => item.user.role !== 'ADMIN')
+        .map((item) => {
+          return {
+            ...item,
+            startDate: new Date(item.startDate).toDateString(),
+            endDate: new Date(item.endDate).toDateString(),
+            createdAt: new Date(item.createdAt).toDateString(),
+          };
+        });
       setLeaves(data);
     }
   };
@@ -34,6 +35,7 @@ const Leaves = () => {
       <table className='striped centered'>
         <thead>
           <tr>
+            <th>Name</th>
             <th>Start Date</th>
             <th>End Date</th>
             <th>Status</th>
@@ -44,6 +46,7 @@ const Leaves = () => {
           {leaves &&
             leaves.map((leave) => (
               <tr key={leave._id}>
+                <td>{leave.user.name}</td>
                 <td>{leave.startDate}</td>
                 <td>{leave.endDate}</td>
                 <td>

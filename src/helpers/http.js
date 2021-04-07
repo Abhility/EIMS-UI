@@ -8,15 +8,15 @@ const httpCall = async (url, method, body) => {
         Authorization: `Bearer ${getValue('token')}`
       },
       method,
-      body: method === 'POST' ? JSON.stringify(body) : null,
+      body: method !== 'GET' ? JSON.stringify(body) : null,
     });
     if(!response.ok)
-         throw Error('some error');
+        throw new Error('Error occured!');
     return await response.json();
   } catch (err) {
     console.log(err);
     window.M.toast({
-      html: '<h6>Network error! Please check your internet connection</h6>',
+      html: '<h6>Some error occured. Please try again!</h6>',
       classes: 'red accent-4 white-text',
       displayLength: 2500,
     });
@@ -32,11 +32,13 @@ const loginCall = async (url, body) => {
       method: 'POST',
       body: JSON.stringify(body),
     });
+    if(!response.ok)
+        throw new Error('Error occured!');
     return await response.json();
   } catch (err) {
     console.log(err);
     window.M.toast({
-      html: '<h6>Network error! Please check your internet connection</h6>',
+      html: '<h6>Some error occured. Please try again!</h6>',
       classes: 'red accent-4 white-text',
       displayLength: 2500,
     });

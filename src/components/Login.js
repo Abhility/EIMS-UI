@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { loginCall } from '../helpers/http';
+import {userLogin} from '../helpers/auth';
 
-const Login = ({ loginUser }) => {
+const Login = ({history}) => {
   const [data, setData] = useState({ email: '', password: '', error: '' });
 
   const handleChange = (event) => {
@@ -16,18 +17,25 @@ const Login = ({ loginUser }) => {
         return { ...data, [name]: value, error: false };
       });
     }
-    console.log(data);
   };
 
   const handleSubmit = async (event) => {
     const { email, password, error } = data;
     if (!error) {
-      let response = await loginCall(
-        'http://localhost:9090/api/v1/auth/login',
-        { email, password }
-      );
-      if(response.token)
-       loginUser(response.token, response.userId);
+      try {
+        let response = await loginCall(
+          'http://localhost:9090/api/v1/auth/login',
+          { email, password }
+        );
+        let { token, userId, role, name } = response;
+        userLogin(token, userId, role, name);
+        if (role === 'ADMIN') history.push('/admin');
+        else history.push('/user');
+      } catch (err) {
+        setData((data) => {
+          return { ...data, error: { invalidPassword: true } };
+        });
+      }
     }
   };
 
@@ -79,11 +87,14 @@ const Login = ({ loginUser }) => {
           </div>
           <div className='input-field col s12'>
             <button
-              className='btn waves-effect waves-light'
+              className='btn waves-effect waves-light col s12'
               onClick={handleSubmit}
             >
               Login
             </button>
+            <span className='red-text  col-s6 offset-s6'>
+              {data.error.invalidPassword && 'Some error occured!'}
+            </span>
           </div>
         </div>
       </div>

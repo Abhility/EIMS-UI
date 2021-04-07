@@ -1,9 +1,10 @@
-const Profile = () => {
-  return (
-    <div className="col l8 m8 offset-l4 offset-m4 striped page-height right-pane">
-     <h1>Profile</h1>
-    </div>
-  );
-};
+import React, { useContext } from 'react';
+import UserContext from '../../utils/UserContext';
+import User from '../User';
+
+function Profile() {
+  const user = useContext(UserContext);
+  return <User user={user} />;
+}
 
 export default Profile;

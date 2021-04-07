@@ -30,13 +30,13 @@ const Dashboard = (props) => {
         <ul className='collection'>
           <li className='collection-item teal'>
             {' '}
-            <Link to='/user'>Profile</Link>
+            <Link to='/admin'>Users</Link>
           </li>
           <li className='collection-item teal'>
-            <Link to='/user/leaves'>Leaves</Link>
+            <Link to='/admin/leaves'>Leaves</Link>
           </li>
           <li className='collection-item teal'>
-            <Link to='/user/finances'>Finances</Link>
+            <Link to='/admin/finances'>Finances</Link>
           </li>
         </ul>
         <button

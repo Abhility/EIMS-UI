@@ -1,4 +1,16 @@
+import { Link } from 'react-router-dom';
+import { httpCall } from '../../helpers/http';
+
 const LeaveInfoModal = ({ data }) => {
+  const processLeave = async (status) => {
+    const leavesData = await httpCall(
+      `http://localhost:9090/api/v1/leaves/${data._id}`,
+      'PUT',
+      {
+        isApproved: status,
+      }
+    );
+  };
   return (
     <div>
       <i
@@ -78,10 +90,33 @@ const LeaveInfoModal = ({ data }) => {
               </label>
             </div>
           </div>
+          <div className='row'>
+            <div className='input-field col s12'>
+              <h6 htmlFor='user' className='active'>
+                Applied By : {' '}
+                <Link to={`/admin/users/${data.user._id}`}>
+                  {data.user.name}
+                </Link>
+              </h6>
+            </div>
+          </div>
           {data.isApproved ? (
             <label className='chip green accent-4 white-text'>Approved</label>
           ) : data.isApproved == null ? (
-            <label className='chip black-text'>Pending</label>
+            <>
+              <label
+                className='chip green accent-4 white-text'
+                onClick={processLeave.bind(null, true)}
+              >
+                Approve
+              </label>
+              <label
+                className='chip red accent-4 white-text'
+                onClick={processLeave.bind(null, false)}
+              >
+                Reject
+              </label>
+            </>
           ) : (
             <label className='chip red accent-4 white-text'>Rejected</label>
           )}

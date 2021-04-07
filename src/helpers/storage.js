@@ -1,9 +1,11 @@
 const isLoggedIn = () => localStorage.getItem('token') !== null;
 
-const setData = (key,value) => localStorage.setItem(key, value);
+const isAdmin = () => getValue('userRole') === 'ADMIN';
 
-const logoutUser = (token) => localStorage.removeItem('token');
+const setData = (key, value) => localStorage.setItem(key, value);
+
+const logoutUser = (token) => localStorage.clear();
 
 const getValue = (key) => localStorage.getItem(key);
 
-export { isLoggedIn, setData, logoutUser, getValue };
+export { isLoggedIn, setData, logoutUser, getValue, isAdmin };

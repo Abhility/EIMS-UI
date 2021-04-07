@@ -1,4 +1,17 @@
-const LeaveInfoModal = ({ data }) => {
+import { Link } from 'react-router-dom';
+import { httpCall } from '../../helpers/http';
+
+const FinanceInfoModal = ({ data }) => {
+  const processFinance = async (status) => {
+    const financeData = await httpCall(
+      `http://localhost:9090/api/v1/finances/${data._id}`,
+      'PUT',
+      {
+        isApproved: status,
+      }
+    );
+  };
+
   return (
     <div>
       <i
@@ -15,52 +28,41 @@ const LeaveInfoModal = ({ data }) => {
         }}
       >
         <div className='modal-content centet-align'>
-          <span className='modal-title'>Leave Details</span>
+          <span className='modal-title'>Finance Details</span>
           <div className='row'>
-            <div className='input-field col s3'>
+            <div className='input-field col s4'>
               <input
                 disabled
                 id='start-date'
                 type='text'
                 className='validate'
-                defaultValue={data.startDate}
+                defaultValue={data.type}
               />
               <label htmlFor='start-date' className='active'>
-                Start date
+                Type
               </label>
             </div>
-            <div className='input-field col s3'>
+            <div className='input-field col s4'>
               <input
                 disabled
                 id='end-date'
                 type='text'
                 className='validate'
-                defaultValue={data.endDate}
+                defaultValue={data.amount}
               />
               <label htmlFor='end-date' className='active'>
-                End date
+                Amount
               </label>
             </div>
-            <div className='input-field col s3'>
+            <div className='input-field col s4'>
               <input
                 disabled
                 id='days'
                 type='text'
                 className='validate'
-                defaultValue={data.days}
-              />
-              <label htmlFor='days' className='active'>
-                Days
-              </label>
-            </div>
-            <div className='input-field col s3'>
-              <textarea
-                id='createdAt'
-                disabled
-                className='materialize-textarea'
                 defaultValue={data.createdAt}
               />
-              <label htmlFor='createdAt' className='active'>
+              <label htmlFor='days' className='active'>
                 Applied On
               </label>
             </div>
@@ -71,17 +73,40 @@ const LeaveInfoModal = ({ data }) => {
                 id='reason'
                 disabled
                 className='materialize-textarea'
-                defaultValue={data.reason}
+                defaultValue={data.comments}
               />
               <label htmlFor='reason' className='active'>
                 Reason
               </label>
             </div>
           </div>
+          <div className='row'>
+            <div className='input-field col s12'>
+              <h6 htmlFor='user' className='active'>
+                Applied By :{' '}
+                <Link to={`/admin/users/${data.user._id}`}>
+                  {data.user.name}
+                </Link>
+              </h6>
+            </div>
+          </div>
           {data.isApproved ? (
             <label className='chip green accent-4 white-text'>Approved</label>
           ) : data.isApproved == null ? (
-            <label className='chip black-text'>Pending</label>
+            <>
+              <label
+                className='chip green accent-4 white-text'
+                onClick={processFinance.bind(null, true)}
+              >
+                Approve
+              </label>
+              <label
+                className='chip red accent-4 white-text'
+                onClick={processFinance.bind(null, false)}
+              >
+                Reject
+              </label>
+            </>
           ) : (
             <label className='chip red accent-4 white-text'>Rejected</label>
           )}
@@ -96,4 +121,4 @@ const LeaveInfoModal = ({ data }) => {
   );
 };
 
-export default LeaveInfoModal;
+export default FinanceInfoModal;

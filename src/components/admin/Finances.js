@@ -1,25 +1,25 @@
 import { useState, useEffect } from 'react';
 import { httpCall } from '../../helpers/http';
-import { getValue } from '../../helpers/storage';
 import FinanceInfoModal from './FinanceInfoModal';
 
-const Finance = () => {
+const Finances = () => {
   const [finances, setFinances] = useState([]);
 
   const fetchfinances = async () => {
     let data = await httpCall(
-      `http://localhost:9090/api/v1/users/${getValue('userId')}/finances`,
+      'http://localhost:9090/api/v1/finances',
       'GET',
       null
     );
-    console.log(data);
     if (data) {
-      data = data.map((item) => {
-        return {
-          ...item,
-          createdAt: new Date(item.createdAt).toDateString(),
-        };
-      });
+      data = data
+        .filter((item) => item.user.role !== 'ADMIN')
+        .map((item) => {
+          return {
+            ...item,
+            createdAt: new Date(item.createdAt).toDateString(),
+          };
+        });
       setFinances(data);
     }
   };
@@ -33,6 +33,7 @@ const Finance = () => {
       <table className='striped centered'>
         <thead>
           <tr>
+            <th>Name</th>
             <th>Type</th>
             <th>Amount</th>
             <th>Status</th>
@@ -43,6 +44,7 @@ const Finance = () => {
           {finances &&
             finances.map((finance) => (
               <tr key={finance._id}>
+                <td>{finance.user.name}</td>
                 <td>{finance.type}</td>
                 <td>{finance.amount}</td>
                 <td>
@@ -69,4 +71,4 @@ const Finance = () => {
   );
 };
 
-export default Finance;
+export default Finances;

@@ -10,7 +10,7 @@
     border: 5px double white;
 }
 
-ul{
+.navigation ul{
     border: none !important;
 }
 
@@ -24,7 +24,7 @@ ul{
     cursor: pointer;
 }
 
-a{
+.navigation a{
     color: white;
 }
 
@@ -47,4 +47,18 @@ label{
 
 .login-left-block{
     height: 100vh;
+}
+
+.image-container{
+    border: 2px groove black;
+    padding: 3px;
+}
+
+.user-image{
+    width: 100%;
+    height: 100%;
+}
+
+.user-details-container label,span{
+    text-align: left;
 }
