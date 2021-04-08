@@ -8,9 +8,9 @@
     border-radius: 50%;
     padding: 3px;
     border: 5px double white;
+    width: 150px;
 }
-
-.navigation ul{
+ul{
     border: none !important;
 }
 
@@ -18,7 +18,7 @@
     position: fixed;
 }
 
-.collection-item{
+.navigation .collection-item{
     border-bottom: 1px solid white !important;
     text-align: center;
     cursor: pointer;
@@ -61,4 +61,8 @@ label{
 
 .user-details-container label,span{
     text-align: left;
+}
+
+{
+   
 }

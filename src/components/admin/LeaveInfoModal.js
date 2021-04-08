@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { httpCall } from '../../helpers/http';
 
-const LeaveInfoModal = ({ data }) => {
+const LeaveInfoModal = ({ data, history }) => {
   const processLeave = async (status) => {
     const leavesData = await httpCall(
       `http://localhost:9090/api/v1/leaves/${data._id}`,
@@ -10,6 +10,8 @@ const LeaveInfoModal = ({ data }) => {
         isApproved: status,
       }
     );
+
+    if (leavesData) history.push('/admin/leaves');
   };
   return (
     <div>
@@ -93,7 +95,7 @@ const LeaveInfoModal = ({ data }) => {
           <div className='row'>
             <div className='input-field col s12'>
               <h6 htmlFor='user' className='active'>
-                Applied By : {' '}
+                Applied By :{' '}
                 <Link to={`/admin/users/${data.user._id}`}>
                   {data.user.name}
                 </Link>
@@ -104,18 +106,18 @@ const LeaveInfoModal = ({ data }) => {
             <label className='chip green accent-4 white-text'>Approved</label>
           ) : data.isApproved == null ? (
             <>
-              <label
-                className='chip green accent-4 white-text'
+              <button
+                className='waves-effect waves-light btn green accent-4 col s3 offset-s2'
                 onClick={processLeave.bind(null, true)}
               >
-                Approve
-              </label>
-              <label
-                className='chip red accent-4 white-text'
+                <i class='material-icons left'>check</i> Approve
+              </button>
+              <button
+                className='waves-effect waves-light btn red accent-4 col s3 offset-s2'
                 onClick={processLeave.bind(null, false)}
               >
-                Reject
-              </label>
+                <i class='material-icons left'>clear</i> Reject
+              </button>
             </>
           ) : (
             <label className='chip red accent-4 white-text'>Rejected</label>

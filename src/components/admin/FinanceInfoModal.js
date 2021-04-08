@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { httpCall } from '../../helpers/http';
 
-const FinanceInfoModal = ({ data }) => {
+const FinanceInfoModal = ({ data, history }) => {
   const processFinance = async (status) => {
     const financeData = await httpCall(
       `http://localhost:9090/api/v1/finances/${data._id}`,
@@ -10,6 +10,8 @@ const FinanceInfoModal = ({ data }) => {
         isApproved: status,
       }
     );
+
+    if (financeData) history.push('/admin/finances');
   };
 
   return (
@@ -94,18 +96,18 @@ const FinanceInfoModal = ({ data }) => {
             <label className='chip green accent-4 white-text'>Approved</label>
           ) : data.isApproved == null ? (
             <>
-              <label
-                className='chip green accent-4 white-text'
+              <button
+                className='waves-effect waves-light btn green accent-4 col s3 offset-s2'
                 onClick={processFinance.bind(null, true)}
               >
-                Approve
-              </label>
-              <label
-                className='chip red accent-4 white-text'
+                <i class='material-icons left'>check</i> Approve
+              </button>
+              <button
+                className='waves-effect waves-light btn red accent-4 col s3 offset-s2'
                 onClick={processFinance.bind(null, false)}
               >
-                Reject
-              </label>
+                <i class='material-icons left'>clear</i> Reject
+              </button>
             </>
           ) : (
             <label className='chip red accent-4 white-text'>Rejected</label>

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { httpCall } from '../../helpers/http';
 import FinanceInfoModal from './FinanceInfoModal';
 
-const Finances = () => {
+const Finances = ({history}) => {
   const [finances, setFinances] = useState([]);
 
   const fetchfinances = async () => {
@@ -61,7 +61,7 @@ const Finances = () => {
                   )}
                 </td>
                 <td>
-                  <FinanceInfoModal key={finance._id} data={finance} />
+                  <FinanceInfoModal key={finance._id} data={finance} history={history}/>
                 </td>
               </tr>
             ))}

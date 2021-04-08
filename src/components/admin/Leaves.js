@@ -2,7 +2,7 @@ import LeaveInfoModal from './LeaveInfoModal';
 import { useState, useEffect } from 'react';
 import { httpCall } from '../../helpers/http';
 
-const Leaves = () => {
+const Leaves = ({history}) => {
   const [leaves, setLeaves] = useState([]);
 
   const fetchLeaves = async () => {
@@ -63,7 +63,7 @@ const Leaves = () => {
                   )}
                 </td>
                 <td>
-                  <LeaveInfoModal key={leave._id} data={leave} />
+                  <LeaveInfoModal key={leave._id} data={leave}history={history} />
                 </td>
               </tr>
             ))}

@@ -5,13 +5,13 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Users from './Users';
 import Dashboard from './Dashboard';
 import UserProfile from './UserProfile';
+import CreateUser from './CreateUser';
 
 const AdminView = ({ history }) => {
     const logoutUser = () => {
       userLogout();
       history.push('/');
     };
-  
     return (
       <BrowserRouter>
         <Dashboard logoutUser={logoutUser} />
@@ -19,6 +19,7 @@ const AdminView = ({ history }) => {
           <Route path='/admin' exact component={Users} />
           <Route path='/admin/leaves' component={Leaves} />
           <Route path='/admin/finances' component={Finances} />
+          <Route path='/admin/users/create' component={CreateUser} />
           <Route path='/admin/users/:userId' component={UserProfile} />
         </Switch>
       </BrowserRouter>
